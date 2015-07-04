@@ -1,3 +1,24 @@
+var movingAverageExample = function(){
+    var startCell = new Cell('start');
+    var guageCell = new Cell('guage');
+
+    riot.mount('#list1',{ list: [
+        { tagType: 'fw-speedometer', cell: guageCell },
+        { tagType: 'fw-cell', cell: startCell },
+        { tagType: 'fw-cell', cell: new Cell('window5','valueWindow(start,acc,20)','[]') },
+        { tagType: 'fw-cell', cell: new Cell('average1','(sum(window5)/length(window5))') }
+    ] });
+
+    setTimeout(function(){
+        guageCell.update('average1');
+
+        setInterval(function() {
+            startCell.update((Math.random() * 10).toString());
+        }, 100);
+
+    },3 * 1000);
+};
+
 var example4 = function(){
     riot.mount('#list1',{ list: [
         { tagType: 'fw-speedometer', cell: new Cell() },

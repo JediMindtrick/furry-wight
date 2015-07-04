@@ -28,18 +28,12 @@
     <script src="./worksheet-tags.html" type="riot/tag"></script>
     <script src="./vendor/riot+compiler.2.2.1.min.js"></script>
 
+    <script src="./extraFuncs.js" type="text/javascript"></script>
     <script src="./examples.js" type="text/javascript"></script>
 
     <script type="text/javascript">
 
-    riot.mount('#list1',{ list: [
-        { tagType: 'fw-speedometer', cell: new Cell() },
-        { tagType: 'fw-ajax', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell('acc1','(function(){ acc.push(anon3); return acc; })();','[]') },
-        { tagType: 'fw-cell', cell: new Cell('acc2','add((anon3 ? anon3 : 0),acc)','0') }
-    ] });
+    movingAverageExample();
 
     </script>
 

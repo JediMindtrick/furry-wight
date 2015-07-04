@@ -3,11 +3,11 @@
     <link rel="stylesheet" type="text/css" href="./speedometer.css">
     <div name={ cell.name } style="border: solid thin black;">
 
-        <label>Cell Name: </label>
+        <label>Name: </label>
         <fw-name cell={ cell }></fw-name>
         <br />
 
-        <label>Source: </label>
+        <label>f(x): </label>
         <fw-formula cell={ cell }></fw-formula>
         <br />
 
@@ -35,7 +35,7 @@
                 clipHeight: 300,
                 ringWidth: 60,
                 maxValue: 10,
-                transitionMs: 500,
+                transitionMs: 50,
             });
             powerGauge.render();
         });
