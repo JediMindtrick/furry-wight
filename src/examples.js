@@ -1,12 +1,12 @@
 var movingAverageExample = function(){
-    var startCell = new Cell('start');
-    var guageCell = new Cell('guage');
+    var startCell = new Cell('inputEvents');
+    var guageCell = new Cell('averageSpeed');
 
     riot.mount('#list1',{ list: [
         { tagType: 'fw-speedometer', cell: guageCell },
         { tagType: 'fw-cell', cell: startCell },
-        { tagType: 'fw-cell', cell: new Cell('window5','valueWindow(start,acc,20)','[]') },
-        { tagType: 'fw-cell', cell: new Cell('average1','(sum(window5)/length(window5))') }
+        { tagType: 'fw-cell', cell: new Cell('last20events','valueWindow(inputEvents,acc,20)','[]') },
+        { tagType: 'fw-cell', cell: new Cell('average1','(sum(last20events)/length(last20events))') }
     ] });
 
     setTimeout(function(){
