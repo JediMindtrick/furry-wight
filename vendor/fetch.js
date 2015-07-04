@@ -1,3 +1,4 @@
+/*See https://github.com/github/fetch */
 (function() {
   'use strict';
 
