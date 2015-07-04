@@ -1,0 +1,124 @@
+<fw-formula>
+    <input autofocus autocomplete="on" placeholder="f(x)" value={ cell.fnText } onkeyup={ changeFormula } >
+    <script>
+        var self = this;
+        self.cell = opts.cell;
+
+        self.changeFormula = function changeFormula(e) {
+
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    self.cell.update('undefined');
+                    return;
+                }
+
+                self.cell.update(value);
+            }
+        };
+
+        this.cell.subscribe(function(cell){
+            self.update();
+        });
+    </script>
+</fw-formula>
+
+<fw-name>
+    <input autocomplete="on" placeholder="name" value={ cell.name } onkeyup={ changeName } >
+    <script>
+        var self = this;
+        self.cell = opts.cell;
+
+        self.changeName = function changeName(e) {
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    self.cell.update(undefined,undefined);
+                    return;
+                }
+
+                self.cell.update(undefined,value);
+            }
+        };
+
+        this.cell.subscribe(function(cell){
+            self.update();
+        });
+    </script>
+</fw-name>
+
+<fw-table>
+    <table>
+        <thead>
+            <tr>
+                <th each={column in columns} >{ column }</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr each={ row in rows }>
+                <td each={item in row}>{ item }</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        /*WORKS, BUT FOR SOME REASON PARENT TAG ISN'T UPDATING THIS WHEN IT SHOULD*/
+        var self = this;
+        self.cell = opts.cell;
+
+        var produceColumns = function produceHeader(val){
+            if(R.isArrayLike(val)){
+                return R.range(0,val.length);
+            }else if(R.is(Object,val)){
+                return R.keys(val);
+            }else{
+                return ['value'];
+            }
+        };
+
+        var produceRow = function produceRow(val,columns){
+            var toReturn = [];
+
+            if(R.isArrayLike(val)){
+                toReturn = val;
+            }else if(R.is(Object,val)){
+                columns.forEach(function(prop){
+                    toReturn.push(val[prop]);
+                });
+            }else{
+                toReturn.push(val);
+            }
+            return toReturn;
+        };
+
+        this.produceOutput = function(val){
+/*
+            val = [
+                {foo:'bar',fizz:'buzz'},
+                {foo: 5, fizz: true }
+            ];
+*/
+
+            if(R.isArrayLike(val)){
+                self.columns = produceColumns(R.head(val));
+                var _rows = [];
+                val.forEach(function(_val){
+                    _rows.push(produceRow(_val,self.columns));
+                });
+                self.rows = _rows;
+            }else{
+                self.columns = produceColumns(val);
+                self.rows = [produceRow(val,self.columns)];
+            }
+        };
+
+        self.reup = function(){
+            self.produceOutput(self.cell.output);
+            self.update();
+        };
+
+        self.cell.subscribe(self.reup);
+
+        self.reup();
+    </script>
+</fw-table>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Polymorphic</title>
+  </head>
+  <body>
+    <h1>Polymorphic</h1>
+
+    <!-- mount point -->
+    <fw-list id='list1'></fw-list>
+
+    <script type="riot/tag">
+        <fw-type1>
+            <h1>Type 1 tag</h1>
+        </fw-type1>
+    </script>
+
+    <script type="riot/tag">
+        <fw-type2>
+            <h1>Type 2 tag</h1>
+        </fw-type2>
+    </script>
+
+    <script src="./polymorphicList.html" type="riot/tag"></script>
+    <script src="./vendor/riot+compiler.min.js"></script>
+
+    <script type="text/javascript">
+        riot.mount('#list1',
+            { list: [
+                        {tagType: 'fw-type1'},
+                        {tagType: 'fw-type2'}
+            ]});
+    </script>
+
+  </body>
+</html>

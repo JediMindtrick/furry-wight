@@ -1,0 +1,18 @@
+{
+  "name": "shiny-wookie",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "riot": "2.0.10",
+    "whatwg-fetch": "^0.9.0"
+  },
+  "scripts": {
+    "build": "npm run clean && babel src --source-maps inline --out-dir app && npm run resources && npm run vendor",
+    "clean": "rm -rf app/*",
+    "resources": "cp -rf src/*.html app && cp -rf src/*.json app && cp -rf src/*.css app",
+    "vendor": "mkdir app/vendor && cp vendor/* app/vendor",
+    "vendor_old": "mkdir app/vendor && cp ./node_modules/riot/riot+compiler.min.js app/vendor/riot+compiler.min.js ",
+    "http": "pushd app; python -m SimpleHTTPServer; popd",
+    "dev": "nodemon --ignore 'app/**/*' --ignore 'grist/**/*' --ignore 'node_modules/**/*' -e html,js,es6,css --exec 'npm run build && npm run http'"
+  }
+}

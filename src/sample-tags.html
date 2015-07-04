@@ -1,0 +1,27 @@
+<my-tagz>
+    <h3>This is my {type} tag</h3>
+
+    <script>
+        this.type = 'second';
+    </script>
+</my-tagz>
+
+<my-list>
+    <ul each={ item, idx in items } >
+        <list-item data={ item } idx={ idx } parent={ this } ></list-item>
+    </ul>
+
+    <script>
+        this.items = opts.items || ['one','two','three'];
+    </script>
+</my-list>
+
+<list-item>
+    <li> { idx + '. ' + item } </li>
+    <script>
+        this.item = opts.data;
+        this.idx = opts.idx;
+        //opts.parent just points to the item for some reason
+        this.parent = opts.parent.parent;
+    </script>
+</list-item>

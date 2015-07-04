@@ -1,0 +1,99 @@
+<html ng-app="powerglove">
+<head>
+
+  <title>Powerglove</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.0/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.14.0/ramda.js"></script>
+  <script src="powerglove.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.css" />
+  <link rel="stylesheet" href="app.css" />
+
+</head>
+<body>
+  <div class="container-fluid" ng-controller="DataController">
+    <h1>PowerGlove</h1>
+
+    <table ng-cloak>
+      <tr>
+        <td class="top title left">pipe(</td>
+        <td class="top cmd" ng-repeat="command in commands" ng-click="removeCommand($index)">
+          <!-- <input type="text" ng-model="commands[$index]" /> -->
+          {{ command }}<span ng-if="!$last">,&nbsp;</span>
+        </td>
+        <td class="top title">)</td>
+      </tr>
+      <tr ng-repeat="(i, element) in input">
+        <td>
+          <div
+            tabindex="{{ $index }}"
+            ng-click="select(input, $index)"
+            ng-class="{ active: $index === selected }"
+          >
+            <span ng-if="!isObject(element)" class="value" ng-class="typeOf(element)">
+              {{ element | json }}
+            </span>
+            <div ng-if="isObject(element)">
+              <ol class="value object">
+                <li ng-repeat="(key, value) in element" ng-include="'node-list'"></li>
+              </ol>
+            </div>
+          </div>
+        </td>
+
+        <td ng-repeat="(j, list) in results" class="result" ng-if="(!isArray(list) && i === 0) || isArray(list)" rowspan="{{ (!isArray(list) && keys(list).length) || 1 }}">
+          <div ng-class="{ active: isActive(j, i) }" ng-click="select(list, i)" ng-if="isArray(list)">
+            <span ng-if="!isObject(list[i])" class="value" ng-class="typeOf(list[i])">
+              {{ list[i] | json }}
+            </span>
+            <div ng-if="isObject(list[i])">
+              <table class="value object">
+                <tr ng-repeat="(key, value) in list[i]" ng-include="'node-list'"></tr>
+              </table>
+            </div>
+          </div>
+
+          <div ng-if="!isArray(list) && isObject(list)">
+            <table class="value object">
+              <tr ng-repeat="(key, value) in list" ng-include="'node-list'"></tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="input">
+      <div class="ctrl-char">&rsaquo;</div>
+      <input
+        type="text"
+        autofocus
+        class="entry"
+        ng-model="newCommand"
+        ng-keypress="$event.keyCode === 13 && addCommand(newCommand)"
+      />
+    </div>
+
+    <script type="text/ng-template" id="node-list">
+      <span
+        class="key"
+        ng-init="state = { open: false }"
+        ng-click="state.open = !state.open; $event.stopPropagation();"
+        ng-class="{ open: state.open, closed: !state.open, object: isObject(value) }"
+      >
+        {{ key }}<span class="marker">:</span>
+      </span>
+      <span ng-if="!isObject(value)" class="value" ng-class="typeOf(value)">{{ value | json }}</span>
+      <span ng-if="isObject(value)">{
+        <span ng-if="!state.open" class="brace" ng-click="state.open = true; $event.stopPropagation();"> &#8230 </span>
+        <ol ng-if="state.open" class="value object">
+          <li ng-repeat="(key, value) in value" ng-include="'node-list'"></li>
+        </ol>
+        <span class="brace">}</span>
+      </span>
+    </script>
+
+  </div>
+</body>
+</html>

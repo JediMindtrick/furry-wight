@@ -1,0 +1,91 @@
+<fw-ajax>
+
+    <div style="border: solid thin black;">
+
+        <label>Cell Name: </label>
+        <fw-name cell={ cell }></fw-name>
+        <br />
+
+        <label>Url: </label>
+        <input autofocus autocomplete="on" placeholder="GET://" value={ url } onkeyup={ callUrl } >
+        <br />
+
+        <label>Output: </label>
+        <div>{ display }</div>
+        <br />
+
+    </div>
+
+    <script>
+        var self = this;
+        self.cell = opts.cell || Cell.getCell(self.root.cellName) || (new Cell());
+        self.url = '';
+        self.display = '';
+
+        self.callUrl = function changeFormula(e) {
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    self.cell.update('undefined');
+                    return;
+                }
+
+                //GET the stuff...set the formula
+                //self.cell.update(value);
+
+                fetch(value)//'/users.json')
+                .then(function(response) {
+                    return response.text();
+                }).then(function(body){
+                    debugger;
+
+                    self.cell.update(body);
+                    self.display = body;
+                    self.update();
+
+                }).catch(function(ex) {
+                    console.log('parsing failed', ex)
+                });
+            }
+        };
+
+    </script>
+</fw-ajax>
+
+<fw-basic>
+    <div style="border: solid thin black;">
+        <h3>Basic Cell</h3>
+
+        <label>Name: </label>
+        <div>{ name }</div>
+        <br />
+
+        <label>Upstreams: </label>
+        <div each={ upstream in upstreams } >{ upstream }</div>
+        <br />
+
+        <label>Output: </label>
+        <div>{ JSON.stringify(output) }</div>
+        <br />
+    </div>
+
+    <script>
+        var self = this;
+        this.cell = opts.cell || Cell.getCell(self.root.cellName) || (new Cell());
+
+        this.reup = function(){
+            this.input = this.cell.input;
+            this.fn = this.cell.fn;
+            this.output = this.cell.output;
+            this.name = this.cell.name;
+            this.upstreams = R.keys(this.cell.upstreams);
+        };
+
+        this.reup();
+
+        this.cell.subscribe(function(cell){
+            self.reup();
+            self.update();
+        });
+        </script>
+</fw-basic>

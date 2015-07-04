@@ -1,0 +1,55 @@
+<fw-speedometer>
+    <link rel="stylesheet" type="text/css" href="./speedometer.css">
+    <div name={ cell.name } style="border: solid thin black;">
+
+        <label>Cell Name: </label>
+        <fw-name cell={ cell }></fw-name>
+        <br />
+
+        <label>Source: </label>
+        <fw-formula cell={ cell }></fw-formula>
+        <br />
+
+        <label>Upstreams: </label>
+        <div each={ upstream in upstreams } >{ upstream }</div>
+        <br />
+
+        <div id="power-gauge" name="power-gauge"></div>
+        <br />
+
+    </div>
+
+    <script>
+        var self = this;
+        self.cell = opts.cell || Cell.getCell(self.root.cellName) || (new Cell());
+
+        var powerGauge = null;
+
+        self.on('mount', function() {
+            var selector = '[name="' + self.cell.name + '"] [name="power-gauge"]';
+
+            powerGauge = gauge(selector, {
+                size: 300,
+                clipWidth: 300,
+                clipHeight: 300,
+                ringWidth: 60,
+                maxValue: 10,
+                transitionMs: 500,
+            });
+            powerGauge.render();
+        });
+
+        self.reup = function(){
+            self.upstreams = R.keys(self.cell.upstreams);
+            if(powerGauge){
+                powerGauge.update(self.cell.output ? self.cell.output : 0 );
+            }
+            self.update();
+        };
+
+        self.cell.subscribe(self.reup);
+
+        self.reup();
+
+    </script>
+</fw-speedometer>

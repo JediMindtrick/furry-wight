@@ -1,0 +1,4 @@
+[
+    { foo: 5, fizz: true },
+    { foo: 7, fizz: false }
+]

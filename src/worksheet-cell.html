@@ -1,0 +1,48 @@
+<fw-cell>
+    <div name={ cell.name } style="border: solid thin black;">
+
+        <label>Cell Name: </label>
+        <fw-name cell={ cell }></fw-name>
+        <br />
+
+        <label>Formula: </label>
+        <fw-formula cell={ cell }></fw-formula>
+        <br />
+
+        <button onclick={ reset }>Reset Acc</button>
+        <br />
+
+        <label>Upstreams: </label>
+        <div each={ upstream in upstreams } >{ upstream }</div>
+        <br />
+
+
+        <label>Output: </label>
+        <!--
+        This is what I really want, but....
+        it only partially works, for some reason when fw-cell updates this tag is not updating
+        <fw-table name="output" data={ output } ></fw-table>
+        -->
+        <fw-table cell={ cell } ></fw-table>
+
+    </div>
+
+    <script>
+        var self = this;
+        self.cell = opts.cell || Cell.getCell(self.root.cellName) || (new Cell());
+
+        self.reset = function(){
+            self.cell.resetAcc();
+        };
+
+        self.reup = function(){
+            self.upstreams = R.keys(self.cell.upstreams);
+            self.update();
+        };
+
+        self.cell.subscribe(self.reup);
+
+        self.reup();
+
+    </script>
+</fw-cell>

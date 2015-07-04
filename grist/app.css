@@ -1,0 +1,100 @@
+body {
+  margin-bottom: 60px;
+}
+html, body, td, div {
+  font-size: 13px;
+  font-family: "Source Code Pro";
+}
+.input {
+  position: fixed;
+  left: 30px;
+  bottom: 20px;
+  width: 95%;
+  text-align: left;
+}
+.input .ctrl-char {
+  height: 50px;
+  width: 50px;
+  font-size: 50px;
+  line-height: 50px;
+  position: relative;
+  margin-bottom: -38px;
+  margin-left: -28px;
+  color: #6194EE;
+}
+.input input {
+  width: 100%;
+  outline: none;
+  border: 0;
+  border-bottom: 2px solid #3366AA;
+  padding: 5px;
+  background: rgba(255, 255, 255, 0.8);
+}
+.active {
+  background: #e0e0ff;
+  border-radius: 7px;
+}
+.result .active {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.result {
+  vertical-align: top;
+}
+div[tabindex], .result {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  /*text-align: center;*/
+  cursor: pointer;
+}
+.top {
+  padding-bottom: 10px;
+}
+.title {
+  opacity: 0.5;
+}
+.title.left {
+  text-align: right;
+}
+.cmd {
+  max-width: 250px;
+}
+
+.object {
+}
+.key {
+  color: purple;
+  padding: 2px 2px 2px 7px;
+  vertical-align: top;
+  font-size: 90%;
+}
+.key.object {
+  padding-left: 0;
+  margin-left: -11px;
+}
+.key.object:before {
+  color: black;
+  margin: 0 -3px 0 6px;
+}
+.key.object.closed:before {
+  content: "\25B6";
+}
+.key.object.open:before {
+  content: "\25BC";
+}
+.marker {
+  color: black;
+}
+.value {
+  list-style: none;
+  font-size: 14px;
+}
+.value.object {
+  padding: 2px 0 2px 12px;
+}
+.value.string {
+  color: #A50000;
+}
+.value.number, .value.boolean {
+  color: blue;
+}

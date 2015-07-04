@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Polymorphic</title>
+  </head>
+  <body>
+    <h1>Polymorphic</h1>
+
+    <!-- mount point -->
+    <fw-container></fw-container>
+
+<script type="riot/tag">
+    <fw-container>
+        <fw-input container={ container } ></fw-input>
+        <fw-output output={ container.output } ></fw-output>
+        var self = this;
+        var _ = opts.container;
+        _.update = function(val){
+            _.output = val;
+            self.update();
+        }
+        this.container = _;
+    </fw-container>
+</script>
+
+<script type="riot/tag">
+    <fw-input>
+        <input autocomplete="on" placeholder="input here..." value={ container.input } onkeyup={ changeInput } />
+
+        var self = this;
+        self.container = opts.container;
+
+        self.changeInput = function(e){
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    return;
+                }
+
+                self.container.update(value);
+            }
+        };
+    </fw-input>
+</script>
+
+<script type="riot/tag">
+    <fw-output>
+        <div>{ output }</div>
+
+        this.output = opts.output;
+    </fw-output>
+</script>
+
+    <script src="./vendor/riot+compiler.2.2.1.min.js"></script>
+
+    <script type="text/javascript">
+        var c = {
+            input: 5,
+            output: 5
+        };
+
+        riot.mount('fw-container',{ container: c });
+    </script>
+
+  </body>
+</html>
