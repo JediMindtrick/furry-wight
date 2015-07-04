@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>Furry-Wight</h1>
-    <fw-speedometer></fw-speedometer>
+
     <fw-list id='list1'></fw-list>
 
     <script type="text/javascript">
@@ -27,41 +27,19 @@
     <script src="./worksheet-speedometer.html" type="riot/tag"></script>
     <script src="./worksheet-tags.html" type="riot/tag"></script>
     <script src="./vendor/riot+compiler.2.2.1.min.js"></script>
+
+    <script src="./examples.js" type="text/javascript"></script>
+
     <script type="text/javascript">
 
-
     riot.mount('#list1',{ list: [
+        { tagType: 'fw-speedometer', cell: new Cell() },
         { tagType: 'fw-ajax', cell: new Cell() },
         { tagType: 'fw-cell', cell: new Cell() },
         { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell('acc1','(function(){ acc.push(anon2); return acc; })();','[]') },
-        { tagType: 'fw-cell', cell: new Cell('acc2','add((anon2 ? anon2 : 0),acc)','0') }
+        { tagType: 'fw-cell', cell: new Cell('acc1','(function(){ acc.push(anon3); return acc; })();','[]') },
+        { tagType: 'fw-cell', cell: new Cell('acc2','add((anon3 ? anon3 : 0),acc)','0') }
     ] });
-
-    riot.mount('fw-speedometer');
-
-    var example3 = function(){
-
-        var _cell1 = new Cell('cell1','5');
-        var _cell2 = new Cell('cell2','add(cell1,15)');
-
-        riot.mount('#list1',{ list: [
-            { tagType: 'fw-cell', cell: new Cell() },
-            { tagType: 'fw-cell', cell: new Cell() },
-            { tagType: 'fw-cell', cell: _cell1 },
-            { tagType: 'fw-basic', cell: _cell2 }
-        ] });
-
-        window.setTimeout(function(){
-            _cell1.update('82');
-
-            window.setTimeout(function(){
-                _cell2.update('add(cell1,25)');
-            },3000);
-        },3000);
-    };
-
-    //example3();
 
     </script>
 
