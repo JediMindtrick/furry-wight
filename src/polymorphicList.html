@@ -12,11 +12,6 @@
         var el = document.createElement(self.tagType);
         self.root.appendChild(el);
 
-        if(opts.data === undefined){
-            debugger;
-        }
-
-        el.cellName = opts.data.cell.name;
         riot.mount(el,self.tagType, opts.data);
     });
     </script>

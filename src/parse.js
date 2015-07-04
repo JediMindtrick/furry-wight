@@ -1,9 +1,8 @@
-var reserved = [
-    'add',
-    'subtract',
-    'multiply',
-    'divide'
-];
+var reserved = R.keys(R);
+reserved.push('ctx');
+reserved.push('acc');
+reserved.push('cell');
+
 var identifierRegex = /\w+/g;
 
 var classifyTokens = function findRefs(text){
