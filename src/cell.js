@@ -7,6 +7,8 @@ function Cell(name,fnText,accDefault){
 
 Cell.prototype.update = function update(fnText,name,accDefault){
 
+    var self = this;
+
     if(name !== undefined){
         this.giveName(name);
     }
@@ -31,6 +33,7 @@ Cell.prototype.update = function update(fnText,name,accDefault){
     }
 
     //generate context
+    //upstream looks like this:
     //cellTo.upstreams[cellFrom.name] = { from: cellFrom, bridgeFunc: bridgeFunc };
     var ctx = {};
     for(var prop in this.upstreams){
@@ -39,10 +42,24 @@ Cell.prototype.update = function update(fnText,name,accDefault){
         }
     }
 
-    this.output = this.fn(this, ctx, this.acc);
-    this.acc = this.output;
+    var _result = this.fn(this, ctx, this.acc);
 
-    this.notify();
+    if(_result && _result.then){
+        _result
+        .then(function(val){
+            self.output = val;
+            self.acc = self.output;
+            self.notify();
+        })
+        .catch(function(ex) {
+            console.log('error from calculation: ', ex);
+        });
+    }else{
+        self.output = _result;
+        self.acc = self.output;
+        self.notify();
+    }
+
 };
 
 Cell.prototype.resetAcc = function resetAcc(){
