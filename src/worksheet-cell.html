@@ -1,3 +1,8 @@
+<fw-celllist>
+    <fw-cell each={ item, idx in list } tagType={ item.displayComponent } cell={ item.cell }></fw-cell>
+    this.list = opts.list;
+</fw-celllist>
+
 <fw-cell>
     <div name={ cell.name } style="border: solid thin black;">
 
@@ -16,14 +21,8 @@
         <div each={ upstream in upstreams } >{ upstream }</div>
         <br />
 
-
         <label>Output: </label>
-        <!--
-        This is what I really want, but....
-        it only partially works, for some reason when fw-cell updates this tag is not updating
-        <fw-table name="output" data={ output } ></fw-table>
-        -->
-        <fw-table cell={ cell } ></fw-table>
+        <fw-poly tagType={ opts.tagtype} parentTag={ this } data={ displayOpts } ></fw-poly>
 
     </div>
 
@@ -31,12 +30,25 @@
         var self = this;
         self.cell = opts.cell || (new Cell());
 
+        self.displayComponent = opts.tagType;
+
+        self.displayOpts = {
+            data: {
+                output: self.cell.output
+            },
+            parentElementSelector: '[name="' + self.cell.name + '"]',
+            parentTag: self,
+            cell: self.cell //shouldn't be needed by most display types
+        };
+
         self.reset = function(){
             self.cell.resetAcc();
         };
 
         self.reup = function(){
             self.upstreams = R.keys(self.cell.upstreams);
+            self.output = self.cell.output;
+            self.displayOpts.data.output = self.cell.output;
             self.update();
         };
 

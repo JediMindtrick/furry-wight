@@ -3,10 +3,10 @@ var movingAverageExample = function(){
     var guageCell = new Cell('averageSpeed');
 
     riot.mount('#list1',{ list: [
-        { tagType: 'fw-speedometer', cell: guageCell },
-        { tagType: 'fw-cell', cell: startCell },
-        { tagType: 'fw-cell', cell: new Cell('last20events','valueWindow(inputEvents,acc,20)','[]') },
-        { tagType: 'fw-cell', cell: new Cell('average1','(sum(last20events)/length(last20events))') }
+        { displayComponent: 'fw-speedometer', cell: guageCell },
+        { displayComponent: 'fw-table', cell: startCell },
+        { displayComponent: 'fw-table', cell: new Cell('last20events','valueWindow(inputEvents,acc,20)','[]') },
+        { displayComponent: 'fw-table', cell: new Cell('average1','(sum(last20events)/length(last20events))') }
     ] });
 
     setTimeout(function(){
@@ -21,12 +21,12 @@ var movingAverageExample = function(){
 
 var example4 = function(){
     riot.mount('#list1',{ list: [
-        { tagType: 'fw-speedometer', cell: new Cell() },
-        { tagType: 'fw-ajax', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell('acc1','(function(){ acc.push(anon3); return acc; })();','[]') },
-        { tagType: 'fw-cell', cell: new Cell('acc2','add((anon3 ? anon3 : 0),acc)','0') }
+        { displayComponent: 'fw-speedometer', cell: new Cell() },
+        { displayComponent: 'fw-ajax', cell: new Cell() },
+        { displayComponent: 'fw-table', cell: new Cell() },
+        { displayComponent: 'fw-table', cell: new Cell() },
+        { displayComponent: 'fw-table', cell: new Cell('acc1','(function(){ acc.push(anon3); return acc; })();','[]') },
+        { displayComponent: 'fw-table', cell: new Cell('acc2','add((anon3 ? anon3 : 0),acc)','0') }
     ] });
 };
 
@@ -36,10 +36,10 @@ var example3 = function(){
     var _cell2 = new Cell('cell2','add(cell1,15)');
 
     riot.mount('#list1',{ list: [
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: new Cell() },
-        { tagType: 'fw-cell', cell: _cell1 },
-        { tagType: 'fw-basic', cell: _cell2 }
+        { displayComponent: 'fw-table', cell: new Cell() },
+        { displayComponent: 'fw-table', cell: new Cell() },
+        { displayComponent: 'fw-table', cell: _cell1 },
+        { displayComponent: 'fw-table', cell: _cell2 }
     ] });
 
     window.setTimeout(function(){

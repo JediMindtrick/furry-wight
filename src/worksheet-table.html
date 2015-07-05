@@ -1,0 +1,69 @@
+<fw-table>
+    <table>
+        <thead>
+            <tr>
+                <th each={column in columns} >{ column }</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr each={ row in rows }>
+                <td each={item in row}>{ item }</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        var self = this;
+        self.data = opts.data;
+
+        var produceColumns = function produceHeader(val){
+            if(R.isArrayLike(val)){
+                return R.range(0,val.length);
+            }else if(R.is(Object,val)){
+                return R.keys(val);
+            }else{
+                return ['value'];
+            }
+        };
+
+        var produceRow = function produceRow(val,columns){
+            var toReturn = [];
+
+            if(R.isArrayLike(val)){
+                toReturn = val;
+            }else if(R.is(Object,val)){
+                columns.forEach(function(prop){
+                    toReturn.push(val[prop]);
+                });
+            }else{
+                toReturn.push(val);
+            }
+            return toReturn;
+        };
+
+        this.produceOutput = function(val){
+
+            if(R.isArrayLike(val)){
+                self.columns = produceColumns(R.head(val));
+                var _rows = [];
+                val.forEach(function(_val){
+                    _rows.push(produceRow(_val,self.columns));
+                });
+                self.rows = _rows;
+            }else{
+                self.columns = produceColumns(val);
+                self.rows = [produceRow(val,self.columns)];
+            }
+        };
+
+        self.reup = function(){
+            self.produceOutput(self.data.output);
+            self.update();
+        };
+
+        /*FOR SOME REASON PARENT TAG ISN'T UPDATING THIS WHEN IT SHOULD, SO WE HAVE TO DO THIS INSTEAD*/
+        opts.parentTag.on('update',self.reup);
+
+        self.reup();
+    </script>
+</fw-table>

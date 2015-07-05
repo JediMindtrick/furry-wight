@@ -1,34 +1,16 @@
 <fw-speedometer>
     <!--See http://bl.ocks.org/msqr/3202712 -->
     <link rel="stylesheet" type="text/css" href="./speedometer.css">
-    <div name={ cell.name } style="border: solid thin black;">
-
-        <label>Name: </label>
-        <fw-name cell={ cell }></fw-name>
-        <br />
-
-        <label>f(x): </label>
-        <fw-formula cell={ cell }></fw-formula>
-        <br />
-
-        <label>Upstreams: </label>
-        <div each={ upstream in upstreams } >{ upstream }</div>
-        <br />
-
-        <div id="power-gauge" name="power-gauge"></div>
-        <br />
-
-    </div>
+    <div id="power-gauge" name="power-gauge"></div>
 
     <script>
         var self = this;
-        self.cell = opts.cell || (new Cell());
+        self.data = opts.data;
 
         var powerGauge = null;
 
         self.on('mount', function() {
-            var selector = '[name="' + self.cell.name + '"] [name="power-gauge"]';
-
+            var selector = opts.parentElementSelector + ' [name="power-gauge"]';
             powerGauge = gauge(selector, {
                 size: 300,
                 clipWidth: 300,
@@ -41,14 +23,13 @@
         });
 
         self.reup = function(){
-            self.upstreams = R.keys(self.cell.upstreams);
             if(powerGauge){
-                powerGauge.update(self.cell.output ? self.cell.output : 0 );
+                powerGauge.update(self.data.output ? self.data.output : 0 );
             }
             self.update();
         };
 
-        self.cell.subscribe(self.reup);
+        opts.parentTag.on('update',self.reup);
 
         self.reup();
 
