@@ -6,7 +6,14 @@ var pushExample = function(){
 //    poll(function(){ updateCell('anon1',(Math.random() * 10).toString()); },2000,acc)
     riot.mount('#list1',{ cells: [
         { displayComponent: 'fw-table', cell: new Cell('pushDestination') },
-        { displayComponent: 'fw-table', cell: new Cell('pushSource',"poll(function(){ updateCell('pushDestination',(Math.random() * 10).toString()); },2000,acc)")}
+        { displayComponent: 'fw-table', cell: new Cell('pushSource',"poll(function(){ updateCell('pushDestination',(Math.random() * 10).toString()); },500,acc)")},
+
+        { displayComponent: 'fw-table', cell: new Cell('last20Values','valueWindow(pushDestination,acc,20)','[]')},
+
+        { displayComponent: 'fw-table', cell: new Cell('averageValues','(sum(last20Values)/length(last20Values))')},
+
+        { displayComponent: 'fw-speedometer', cell: new Cell('guage','averageValues')},
+        { displayComponent: 'fw-table', cell: new Cell('fetchData',"ajaxGET('./test2.json')")}
     ]});
 
 }
