@@ -1,19 +1,23 @@
 <fw-worksheet>
-    <div>
+
+    <div style="margin-left: 1%;">
         <select onchange={ setDisplayType }>
             <option value="fw-table">Table</option>
             <option value="fw-speedometer">Speedometer</option>
         </select>
         <button class="btn btn-primary" onclick={ newCell }>New</button>
     </div>
-    <div style="border: solid thin black;" class="row">
-        <div each={ item, idx in cells } style="border: solid thin black;" class="col-md-6">
-            <button style="float:right;" class="btn btn-xs btn-danger">X</button>
-            <fw-cell tagType={ item.displayComponent } cell={ item.cell }></fw-cell>
+
+    <div class="row" style="border: solid thin black; margin-top:2%; margin-left:1%; margin-right: 1%;">
+        <div each={ cells } style="border: solid thin black;" class="col-md-6">
+            <button style="float:right;" class="btn btn-xs btn-danger" onclick={ parent.remove } >X</button>
+            <fw-cell tagType={ displayComponent } cell={ cell }></fw-cell>
         </div>
+    </div>
     <script>
         var self = this;
         self.cells = opts.cells;
+
         var newDisplayType = 'fw-table';
 
         self.setDisplayType = function setDisplayType(e){
@@ -25,6 +29,12 @@
             self.cells.push(
                 { displayComponent: newDisplayType, cell: new Cell() });
             self.update();
+        };
+
+        self.remove = function remove(event){
+            var _cell = event.item;
+            var idx = self.cells.indexOf(_cell);
+            self.cells = R.remove(idx,1,self.cells);
         };
 
     </script>
