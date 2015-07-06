@@ -10,16 +10,22 @@
         var powerGauge = null;
 
         self.on('mount', function() {
-            var selector = opts.parentElementSelector + ' [name="power-gauge"]';
-            powerGauge = gauge(selector, {
-                size: 300,
-                clipWidth: 300,
-                clipHeight: 300,
-                ringWidth: 60,
-                maxValue: 10,
-                transitionMs: 50,
-            });
-            powerGauge.render();
+
+            /*Ugly hack...this setTimeout should not be needed, but is b/c for some reason in some conditions when we hit 'mount' event, it seems the power-gauge div is not yet accessible on the dom*/
+            setTimeout(function(){
+
+                var selector = opts.parentElementSelector + ' [name="power-gauge"]';
+                powerGauge = gauge(selector, {
+                    size: 300,
+                    clipWidth: 300,
+                    clipHeight: 180,
+                    ringWidth: 60,
+                    maxValue: 10,
+                    transitionMs: 50,
+                });
+                powerGauge.render();
+
+            },0);
         });
 
         self.reup = function(){

@@ -1,0 +1,32 @@
+<fw-worksheet>
+    <div>
+        <select onchange={ setDisplayType }>
+            <option value="fw-table">Table</option>
+            <option value="fw-speedometer">Speedometer</option>
+        </select>
+        <button onclick={ newCell }>New</button>
+    </div>
+    <div style="border: solid thin black;">
+        <div each={ item, idx in cells } style="border: solid thin black;">
+            <button>Remove</button>
+            <fw-cell tagType={ item.displayComponent } cell={ item.cell }></fw-cell>
+        </div>
+    <script>
+        var self = this;
+        self.cells = opts.cells;
+        var newDisplayType = 'fw-table';
+
+        self.setDisplayType = function setDisplayType(e){
+            newDisplayType = e.target.value
+            return false;
+        };
+
+        self.newCell = function newCell(){
+            self.cells.push(
+                { displayComponent: newDisplayType, cell: new Cell() });
+            self.update();
+        };
+
+    </script>
+
+</fw-worksheet>

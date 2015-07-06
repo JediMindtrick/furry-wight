@@ -1,10 +1,5 @@
-<fw-celllist>
-    <fw-cell each={ item, idx in list } tagType={ item.displayComponent } cell={ item.cell }></fw-cell>
-    this.list = opts.list;
-</fw-celllist>
-
 <fw-cell>
-    <div name={ cell.name } style="border: solid thin black;">
+    <div name={ cell.name }>
 
         <label>Name: </label>
         <fw-name cell={ cell }></fw-name>
@@ -15,6 +10,8 @@
         <br />
 
         <button onclick={ reset }>Reset Acc</button>
+        <label>Acc: </label>
+        <input>
         <br />
 
         <label>Upstreams: </label>
@@ -30,7 +27,7 @@
         var self = this;
         self.cell = opts.cell || (new Cell());
 
-        self.displayComponent = opts.tagType;
+        self.displayComponent = opts.tagType || opts.tagtype;
 
         self.displayOpts = {
             data: {

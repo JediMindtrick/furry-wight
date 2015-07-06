@@ -1,8 +1,12 @@
+var blankWorksheet = function(selector){
+    riot.mount(selector,{ cells: [] });
+};
+
 var movingAverageExample = function(){
     var startCell = new Cell('inputEvents');
     var guageCell = new Cell('averageSpeed');
 
-    riot.mount('#list1',{ list: [
+    riot.mount('#list1',{ cells: [
         { displayComponent: 'fw-speedometer', cell: guageCell },
         { displayComponent: 'fw-table', cell: startCell },
         { displayComponent: 'fw-table', cell: new Cell('last20events','valueWindow(inputEvents,acc,20)','[]') },
@@ -20,7 +24,7 @@ var movingAverageExample = function(){
 };
 
 var example4 = function(){
-    riot.mount('#list1',{ list: [
+    riot.mount('#list1',{ cells: [
         { displayComponent: 'fw-speedometer', cell: new Cell() },
         { displayComponent: 'fw-ajax', cell: new Cell() },
         { displayComponent: 'fw-table', cell: new Cell() },
@@ -35,7 +39,7 @@ var example3 = function(){
     var _cell1 = new Cell('cell1','5');
     var _cell2 = new Cell('cell2','add(cell1,15)');
 
-    riot.mount('#list1',{ list: [
+    riot.mount('#list1',{ cells: [
         { displayComponent: 'fw-table', cell: new Cell() },
         { displayComponent: 'fw-table', cell: new Cell() },
         { displayComponent: 'fw-table', cell: _cell1 },
