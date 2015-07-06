@@ -1,0 +1,43 @@
+<fw-speedometer>
+    <!--See http://bl.ocks.org/msqr/3202712 -->
+    <link rel="stylesheet" type="text/css" href="./speedometer.css">
+    <div id="power-gauge" name="power-gauge"></div>
+
+    <script>
+        var self = this;
+        self.data = opts.data;
+
+        var powerGauge = null;
+
+        self.on('mount', function() {
+
+            /*Ugly hack...this setTimeout should not be needed, but is b/c for some reason in some conditions when we hit 'mount' event, it seems the power-gauge div is not yet accessible on the dom*/
+            setTimeout(function(){
+
+                var selector = opts.parentElementSelector + ' [name="power-gauge"]';
+                powerGauge = gauge(selector, {
+                    size: 300,
+                    clipWidth: 300,
+                    clipHeight: 180,
+                    ringWidth: 60,
+                    maxValue: 10,
+                    transitionMs: 50,
+                });
+                powerGauge.render();
+
+            },0);
+        });
+
+        self.reup = function(){
+            if(powerGauge){
+                powerGauge.update(self.data.output ? self.data.output : 0 );
+            }
+            self.update();
+        };
+
+        opts.parentTag.on('update',self.reup);
+
+        self.reup();
+
+    </script>
+</fw-speedometer>

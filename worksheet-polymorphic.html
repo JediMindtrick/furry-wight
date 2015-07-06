@@ -1,0 +1,13 @@
+<fw-poly>
+    <script>
+    var self = this;
+    self.tagType = opts.tagType || opts.tagtype;
+
+    self.on('mount', function() {
+        var el = document.createElement(self.tagType);
+        self.root.appendChild(el);
+
+        riot.mount(el,self.tagType, opts.data);
+    });
+    </script>
+</fw-poly>

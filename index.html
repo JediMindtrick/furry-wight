@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Furry-Wight</title>
+  </head>
+  <body>
+    <h1>Furry-Wight</h1>
+
+    <fw-worksheet id='list1'></fw-worksheet>
+
+    <script type="text/javascript">
+        window.doSomethingUnsafe = function(text){
+            return eval(text);
+        };
+    </script>
+
+    <!--bootstrap-->
+    <script src="./vendor/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="./vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="./vendor/bootstrap-theme.min.css">
+    <script src="./vendor/bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="./vendor/ramda.min.js" type="text/javascript"></script>
+    <script src="./vendor/bluebird.min.js" type="text/javascript"></script>
+    <script src="./vendor/fetch.js" type="text/javascript"></script>
+    <script src="./vendor/d3.js" type="text/javascript"></script>
+    <script src="./speedometer.js" type="text/javascript"></script>
+    <script src="./parse.js" type="text/javascript"></script>
+    <script src="./cell.js" type="text/javascript"></script>
+
+    <script src="./worksheet-polymorphic.html" type="riot/tag"></script>
+    <script src="./worksheet-table.html" type="riot/tag"></script>
+    <script src="./worksheet-speedometer.html" type="riot/tag"></script>
+
+    <script src="./worksheet-lib.html" type="riot/tag"></script>
+    <script src="./worksheet-cell.html" type="riot/tag"></script>
+    <script src="./worksheet.html" type="riot/tag"></script>
+    <script src="./vendor/riot+compiler.2.2.1.min.js"></script>
+
+    <script src="./extraFuncs.js" type="text/javascript"></script>
+    <script src="./examples.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+pushExample();
+//    blankWorksheet('#list1');
+
+//    example3();
+//    movingAverageExample();
+
+    </script>
+
+  </body>
+</html>

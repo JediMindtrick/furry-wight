@@ -1,0 +1,72 @@
+<fw-cell>
+    <div name={ cell.name }  style="margin-top:1%;">
+
+        <div>
+            <label>Name: </label>
+            <fw-name cell={ cell }></fw-name>
+
+            <label>Acc: </label>
+            <input onkeyup={ changeAcc } >
+        </div>
+
+        <br />
+        <br>
+
+        <label>f(x): </label>
+        <fw-formula cell={ cell }></fw-formula>
+        <br />
+        <br />
+
+
+
+        <!--Might be useful later, but display needs to be betterer
+        <label>Upstreams: </label>
+        <div each={ upstream in upstreams } >{ upstream }</div>
+        <br />
+        -->
+
+        <fw-poly tagType={ opts.tagtype} parentTag={ this } data={ displayOpts } ></fw-poly>
+
+    </div>
+
+    <script>
+        var self = this;
+        self.cell = opts.cell || (new Cell());
+
+        self.displayComponent = opts.tagType || opts.tagtype;
+
+        self.displayOpts = {
+            data: {
+                output: self.cell.output
+            },
+            parentElementSelector: '[name="' + self.cell.name + '"]',
+            parentTag: self,
+            cell: self.cell //shouldn't be needed by most display types
+        };
+
+        self.changeAcc = function changeAcc(e){
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    return;
+                }
+
+                if(confirm('Are you sure you want to (re)set the accumulator to ' + value + '?')){
+                    self.cell.update(undefined,undefined,value);
+                }
+            }
+        }
+
+        self.reup = function(){
+            self.upstreams = R.keys(self.cell.upstreams);
+            self.output = self.cell.output;
+            self.displayOpts.data.output = self.cell.output;
+            self.update();
+        };
+
+        self.cell.subscribe(self.reup);
+
+        self.reup();
+
+    </script>
+</fw-cell>
