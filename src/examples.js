@@ -2,6 +2,15 @@ var blankWorksheet = function(selector){
     riot.mount(selector,{ cells: [] });
 };
 
+var pushExample = function(){
+//    poll(function(){ updateCell('anon1',(Math.random() * 10).toString()); },2000,acc)
+    riot.mount('#list1',{ cells: [
+        { displayComponent: 'fw-table', cell: new Cell('pushDestination') },
+        { displayComponent: 'fw-table', cell: new Cell('pushSource',"poll(function(){ updateCell('pushDestination',(Math.random() * 10).toString()); },2000,acc)")}
+    ]});
+
+}
+
 var movingAverageExample = function(){
     var startCell = new Cell('inputEvents');
     var guageCell = new Cell('averageSpeed');

@@ -26,3 +26,21 @@ var ajaxGET = function ajaxGET(url){
         });
     });
 };
+
+var poll = function poll(func,interval,acc){
+    if(acc === undefined){
+        acc = setInterval(func,interval);
+    }
+    return acc;
+};
+
+var updateCell = function updateCell(cellName,value){
+    var _cell = Cell.getCell(cellName)
+    _cell.update(value);
+    return value;
+};
+
+//example usage
+//poll(function(){ Cell.getCell('anon1').update((Math.random() * 10).toString()); },2000,acc)
+//or
+//poll(function(){ updateCell('anon1',(Math.random() * 10).toString()); },2000,acc)
