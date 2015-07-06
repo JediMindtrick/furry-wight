@@ -1,24 +1,30 @@
 <fw-cell>
-    <div name={ cell.name }>
+    <div name={ cell.name }  style="margin-top:1%;">
 
-        <label>Name: </label>
-        <fw-name cell={ cell }></fw-name>
+        <div>
+            <label>Name: </label>
+            <fw-name cell={ cell }></fw-name>
+
+            <label>Acc: </label>
+            <input onkeyup={ changeAcc } >
+        </div>
+
         <br />
+        <br>
 
         <label>f(x): </label>
         <fw-formula cell={ cell }></fw-formula>
         <br />
-
-        <button onclick={ reset }>Reset Acc</button>
-        <label>Acc: </label>
-        <input>
         <br />
 
+
+
+        <!--Might be useful later, but display needs to be betterer
         <label>Upstreams: </label>
         <div each={ upstream in upstreams } >{ upstream }</div>
         <br />
+        -->
 
-        <label>Output: </label>
         <fw-poly tagType={ opts.tagtype} parentTag={ this } data={ displayOpts } ></fw-poly>
 
     </div>
@@ -38,9 +44,18 @@
             cell: self.cell //shouldn't be needed by most display types
         };
 
-        self.reset = function(){
-            self.cell.resetAcc();
-        };
+        self.changeAcc = function changeAcc(e){
+            if (e.which == 13) {
+                var value = e.target.value && e.target.value.trim();
+                if (!value) {
+                    return;
+                }
+
+                if(confirm('Are you sure you want to (re)set the accumulator to ' + value + '?')){
+                    self.cell.update(undefined,undefined,value);
+                }
+            }
+        }
 
         self.reup = function(){
             self.upstreams = R.keys(self.cell.upstreams);

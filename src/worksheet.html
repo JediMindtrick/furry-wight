@@ -4,11 +4,11 @@
             <option value="fw-table">Table</option>
             <option value="fw-speedometer">Speedometer</option>
         </select>
-        <button onclick={ newCell }>New</button>
+        <button class="btn btn-primary" onclick={ newCell }>New</button>
     </div>
-    <div style="border: solid thin black;">
-        <div each={ item, idx in cells } style="border: solid thin black;">
-            <button>Remove</button>
+    <div style="border: solid thin black;" class="row">
+        <div each={ item, idx in cells } style="border: solid thin black;" class="col-md-6">
+            <button style="float:right;" class="btn btn-xs btn-danger">X</button>
             <fw-cell tagType={ item.displayComponent } cell={ item.cell }></fw-cell>
         </div>
     <script>

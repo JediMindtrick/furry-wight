@@ -10,45 +10,45 @@ Cell.prototype.update = function update(fnText,name,accDefault){
     var self = this;
 
     if(name !== undefined){
-        this.giveName(name);
+        self.giveName(name);
     }
 
     if(accDefault !== undefined){
-        this.accText = accDefault || 'undefined';
-        this.accDefault = Parser.createCalc(accDefault);
-        this.acc = this.accDefault(this,{}, this.acc);//eval the function/string and use this function
+        self.accText = accDefault || 'undefined';
+        self.accDefault = Parser.createCalc(accDefault);
+        self.acc = self.accDefault(self,{}, self.acc);//eval the function/string and use this function
     }
 
     if(fnText !== undefined){
-        this.fnText = fnText;
+        self.fnText = fnText;
 
         //subscribe to upstreams
-        var self = this;
+        var self = self;
         Parser.classifyTokens(fnText).refs.forEach(function(ref){
             self.subUpstream(ref);
         });
 
         //create fn
-        this.fn = Parser.createCalc(fnText);
+        self.fn = Parser.createCalc(fnText);
     }
 
     //generate context
     //upstream looks like this:
     //cellTo.upstreams[cellFrom.name] = { from: cellFrom, bridgeFunc: bridgeFunc };
     var ctx = {};
-    for(var prop in this.upstreams){
-        if(this.upstreams.hasOwnProperty(prop)){
-            ctx[prop] = this.upstreams[prop].from.output;
+    for(var prop in self.upstreams){
+        if(self.upstreams.hasOwnProperty(prop)){
+            ctx[prop] = self.upstreams[prop].from.output;
         }
     }
 
-    var _result = this.fn(this, ctx, this.acc);
+    var _result = self.fn(self, ctx, self.acc);
 
     if(_result && _result.then){
         _result
         .then(function(val){
             self.output = val;
-            self.acc = self.output;
+            self.acc = self.output !== undefined ? self.output : self.acc;
             self.notify();
         })
         .catch(function(ex) {
@@ -56,15 +56,14 @@ Cell.prototype.update = function update(fnText,name,accDefault){
         });
     }else{
         self.output = _result;
-        self.acc = self.output;
+        self.acc = self.output !== undefined ? self.output : self.acc;
         self.notify();
     }
 
 };
 
 Cell.prototype.resetAcc = function resetAcc(){
-    this.acc = this.accDefault(this,{}, this.acc);
-    this.update();
+    this.update(undefined,undefined,this.accText);
 };
 
 Cell.names = {};
